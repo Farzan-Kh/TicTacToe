@@ -51,38 +51,33 @@ def print_board(board):
 
 
 def check_win(board):
-    """
-    This function checks for all possible four-in-a-row wins on a
-    5x5 tic-tac-toe board.
-    """
-    # Possible Horizontal Wins
-    horizontal = [0, 1, 5, 6, 10, 11, 15, 16, 20, 21]
-    for i in horizontal:
-        if (board[i] != ' '
-           and board[i] == board[i + 1] == board[i + 2] == board[i + 3]):
-            return board[i]
-
-    # Possible Diagonal wins, left to right
-    l_diagonal = [0, 1, 5, 6]
-    for i in l_diagonal:
-        if (board[i] != ' '
-           and board[i] == board[i + 5 + 1] == board[i + 10 + 2] == board[i + 15 + 3]):
-            return board[i]
-
-    # Possible Diagonal wins, right to left
-    r_diagonal = [3, 4, 8, 9]
-    for i in r_diagonal:
-        if (board[i] != ' '
-           and board[i] == board[i + 5 - 1] == board[i + 10 - 2] == board[i + 15 - 3]):
-            return board[i]
-
-    # Possible Vertical wins
-    for i in range(10):
-        if (board[i] != ' '
-           and board[i] == board[i + 5] == board[i + 10] == board[i + 15]):
-            return board[i]
-
-    # Possible draw
+    for i in range(len(board)):
+        if board[i] != ' ':
+            # Check for L shape with a vertical line down
+            if (i + 2 * 5) < len(board):
+                if i % 5 + 1 < 5 and board[i + 5] == board[i] and board[i + 10] == board[i] and board[i + 1] == board[i]:
+                    return board[i]
+                if i % 5 != 0 and board[i + 5] == board[i] and board[i + 10] == board[i] and board[i - 1] == board[i]:
+                    return board[i]
+            # Check for L shape with a vertical line up
+            if i - 2 * 5 >= 0:
+                if i % 5 + 1 < 5 and board[i - 5] == board[i] and board[i - 10] == board[i] and board[i + 1] == board[i]:
+                    return board[i]
+                if i % 5 != 0 and board[i - 5] == board[i] and board[i - 10] == board[i] and board[i - 1] == board[i]:
+                    return board[i]
+            # Check for L shape with a horizontal line right
+            if i % 5 + 2 < 5:
+                if i + 5 < 25 and board[i + 1] == board[i] and board[i + 2] == board[i] and board[i + 5] == board[i]:
+                    return board[i]
+                if i - 5 >= 0 and board[i + 1] == board[i] and board[i + 2] == board[i] and board[i - 5] == board[i]:
+                    return board[i]
+            # Check for L shape with a horizontal line left
+            if i % 5 >= 0:
+                if i + 5 < 25 and board[i - 1] == board[i] and board[i - 2] == board[i] and board[i + 5] == board[i]:
+                    return board[i]
+                if i - 5 >= 0 and board[i - 1] == board[i] and board[i - 2] == board[i] and board[i - 5] == board[i]:
+                    return board[i]
+    
     draw = True
     for char in board:
         if char == ' ':
